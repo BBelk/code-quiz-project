@@ -1,43 +1,37 @@
 var startSection = document.querySelector("#start");
 var quizSection = document.querySelector("#quiz");
 var endSection = document.querySelector("#end");
+var questionH3 = quizSection.appendChild(document.createElement("h3"));
 
 questionsAndAnswers = [
     {
         "question": "What is the capital of Thailand?",
-        "answer0": "Bangkok",
-        "answer1": "Is this knowable?",
-        "answer2": "Singapore",
-        "answer3": "Aren't they changing it? Or is that Malaysia?"
+        "answers": ["Singapore", "London", "Paris", "Berlin"]
     },
     {
-        "question": "Second Question",
-        "answer0": "Second A0",
-        "answer1": "Second A1",
-        "answer2": "Second A2",
-        "answer3": "Second A3"
+        "question": "What is the capital of South Africa?",
+        "answers": ["Probably Cape Town?", "Mexico City", "Delhi", "Sao Paolo"]
     },
-    {
-        "question": "Third Question",
-        "answer0": "Third A0",
-        "answer1": "Third A1",
-        "answer2": "Third A2",
-        "answer3": "Third A3"
-    },
-    {
-        "question": "Fourth Question",
-        "answer0": "Fourth A0",
-        "answer1": "Fourth A1",
-        "answer2": "Fourth A2",
-        "answer3": "Fourth A3"
-    }
 ];
+
 var quizOl = document.createElement("ol");
 quizSection.appendChild(quizOl);
-var allAnswersIl = [];
-for(questionItems of questionsAndAnswers){
-    allAnswersIl[quizOl.appendChild(document.createElement("il"))];
+var allLi = [];
+var allButtons = [];
+// for(questionItems of questionsAndAnswers){
+//     allAnswersIl[quizOl.appendChild(document.createElement("il"))];
+//     allAnswersIl[questionItems].appendChild(document.createElement("button"));
+// }
+
+for(var i = 0; i < 4; i++){
+   allLi.push(quizOl.appendChild(document.createElement("il")));
+
+   allButtons.push(allLi[i].appendChild(document.createElement("button")));
+    // var newIl = allAnswersIl[quizOl.appendChild(document.createElement("il"))];
+    // allAnswersIl[i].appendChild(document.createElement("p"));
 }
+
+
 
 var startButton = startSection.querySelector("#startButton");
 
@@ -50,7 +44,7 @@ var startButton = startSection.querySelector("#startButton");
 // console.log("FIRST OBJECT QUESTION: " + questionsAndAnswers[0].question);
 
 
-var setState = function(state){
+var SetState = function(state){
     if(state === "start"){
         startSection.setAttribute("style","display:block");
         quizSection.setAttribute("style", "display:none");
@@ -66,12 +60,28 @@ var setState = function(state){
         quizSection.setAttribute("style", "display:none");
         endSection.setAttribute("style", "display:block");
     }
-}
+};
 
 
 startButton.addEventListener('click', function(){
-    setState("quiz");
+    console.log("TEST");
+    SetState("quiz");
+    NextQuestion();
 });
+var buttonStyling = "display:block; padding:3px";
+var cursor = 0;
+function NextQuestion(){
+    for(newButton of allButtons){newButton.setAttribute("style", "display:none");}
+    questionH3.textContent = "" + questionsAndAnswers[cursor].question;
+    for(var i = 0; i < questionsAndAnswers[cursor].answers.length; i++){
+        allButtons[i].textContent = "" +  questionsAndAnswers[cursor].answers[i];
+        allButtons[i].setAttribute("style", "" + buttonStyling);
+    }
+    // for(newAs of questionsAndAnswers[cursor]){
+    //     allButtons[newAs].innerHtml = "" + questionsAndAnswers[newAs];
+    // }
+    cursor++;
+}
 
 
-setState("start");
+SetState("start");
