@@ -60,7 +60,7 @@ body {
   }
   
   button {
-    display:block;
+    display:flex;
     text-align: center;
     padding: 2px;
     margin: 2px;

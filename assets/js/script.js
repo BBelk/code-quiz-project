@@ -14,8 +14,8 @@ var wrongDisplay = quizSection.appendChild(document.createElement("p"));
 var highScoreOl = document.querySelector("#highscoreOrderedList");
 
 
-wrongDisplay.innerHTML = "WRONG!";
-wrongDisplay.setAttribute("style", "padding-top: 20px;display:none;margin:auto;width:auto");
+
+
 
 var cursor = 0;
 
@@ -25,12 +25,20 @@ var sectionStyling = "display:flex; width:100%; justify-content:center; flex-dir
 
 questionsAndAnswers = [
     {
-        "question": "What is the capital of France?",
-        "answers": ["Paris", "London", "Madrid", "Berlin"]
+        "question": "Which built-in method combines the text of two strings and returns a new string?",
+        "answers": ["concat()", "append()", "attach()", "splice()"]
     },
     {
-        "question": "What is the capital of South Africa?",
-        "answers": ["Probably Cape Town?", "Mexico City", "Delhi", "Sao Paolo"]
+        "question": "Which of the following function of Number object returns the number's value?",
+        "answers": ["lastIndexOf()", "search()", "substr()", "indexOf()"]
+    },
+    {
+        "question": "Which of the following function of Array object calls a function for each element in the array?",
+        "answers": ["forEach()", "every()", "concat()", "filter()"]
+    },
+    {
+        "question": "Which of the following function of Array object returns a string representing the array and its elements?",
+        "answers": ["toString()", "toSource()", "splice()", "sort()"]
     },
 ];
 
@@ -74,17 +82,39 @@ for(newButton of wrongButtons){
 }
 
 function RightAnswer(){
-    console.log("YOURE RIGHT");
+    // console.log("YOURE RIGHT");
     NextQuestion();
+    ShowCorrect();
+    setTimeout(HideWrong, 1000);
 }
 
 var wrongPoints = 0;
 function WrongAnswer(){
-    console.log("YOURE WRONG");
+    // console.log("YOURE WRONG");
     wrongPoints += 1;
     secondsLeft -= 5;
     NextQuestion();
+    // wrongDisplay.innerHTML = "WRONG!";
+    ShowWrong();
+    setTimeout(HideWrong, 1000);
 }
+
+function HideWrong(){
+    wrongDisplay.innerHTML = "WRONG!";
+    wrongDisplay.setAttribute("style", "padding-top: 20px;display:none;margin:auto;width:auto");
+}
+
+function ShowWrong(){
+    wrongDisplay.innerHTML = "WRONG!";
+    wrongDisplay.setAttribute("style", "padding-top: 20px;display:block;margin:auto;width:auto");
+}
+
+function ShowCorrect(){
+    wrongDisplay.innerHTML = "CORRECT!";
+    wrongDisplay.setAttribute("style", "padding-top: 20px;display:block;margin:auto;width:auto");
+}
+
+
 
 var state = "";
 var SetState = function(state2){
@@ -195,6 +225,7 @@ viewHighScore.onclick = () => {
     WriteNewHighScore(score, newInput);
     // SetState("highscore");
     OpenHighScoreScreen();
+    document.getElementById("inputText").value = "";
   });
 
     
@@ -214,6 +245,7 @@ viewHighScore.onclick = () => {
   function OpenHighScoreScreen(){
     var allHighScores = JSON.parse(localStorage.getItem("allScores")) || [];
     viewHighScore.innerHTML = "Back To Start";
+    timer.innerHTML = "";
     SetState("highscore");
     ReadHighScores();
   }
