@@ -1,7 +1,7 @@
 *{
     padding:0px;
     margin:0px;
-    
+    box-sizing: border-box;
 }
 
 body {
@@ -24,6 +24,7 @@ body {
     /* background:red; */
     justify-content: center;
     align-items:center;
+    flex-direction: column;
   }
   
   h2, h3 {
@@ -65,7 +66,11 @@ body {
     margin: 2px;
     cursor: pointer;
     font-size: 24px;
-    background-color: #247BA0;
+    background-color: #7224a0;
     color: white;
+  }
+
+  .submit{
+    text-align: center;
   }
   
