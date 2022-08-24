@@ -62,6 +62,7 @@ body {
   button {
     display:flex;
     text-align: center;
+    align-self: center;
     padding: 2px;
     margin: 2px;
     cursor: pointer;
@@ -74,11 +75,23 @@ body {
     text-align: center;
   }
 
-  div.highscoreSection{
+  #highscoreSection{
     display:block;
     flex-direction: column;
     justify-content: center;
+    /* flex-wrap: wrap; */
+    width:100%;
     align-items:center;
     text-align:center;
+    /* background-color: red; */
+    margin:auto;
+    padding:2px;
+  }
+
+  #highscoreSection button{
+    align-self: center;
+    width:90%;
+    display: block;
+    margin: 10px;
   }
   

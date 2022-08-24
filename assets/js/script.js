@@ -63,7 +63,7 @@ for(var i = 0; i < 4; i++){
 }
 
 startButton.addEventListener('click', function(){
-    console.log("TEST");
+    // console.log("TEST");
     SetState("quiz");
     setTime();
     cursor = 0;
@@ -232,7 +232,7 @@ viewHighScore.onclick = () => {
 
   function WriteNewHighScore(score, initials){
     var allHighScores = JSON.parse(localStorage.getItem("allScores")) || [];
-    console.log("SCORE IS: " + score + "  INITALS ARE: " + initials);
+    // console.log("SCORE IS: " + score + "  INITALS ARE: " + initials);
     var newEntry = {
         inScore: score,
         inInitials: initials
@@ -259,7 +259,7 @@ viewHighScore.onclick = () => {
         // highScoreOl.appendChild(document.createElement<"li>");
         // highscoreEntryArray.push(.document.createElement<"li">.appendChild)
         highscoreEntryArray.push(highScoreOl.appendChild(document.createElement("il")));
-        console.log("GENERATEED ENTRY");
+        // console.log("GENERATEED ENTRY");
         highscoreEntryArray[x].innerHTML = "SCORE: " + allHighScores[x].inScore + " INITIALS: " + allHighScores[x].inInitials;
         highscoreEntryArray[x].setAttribute("style", "background-color: black; color:white"); 
         //im tired, sorry
