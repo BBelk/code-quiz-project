@@ -73,4 +73,12 @@ body {
   .submit{
     text-align: center;
   }
+
+  div.highscoreSection{
+    display:block;
+    flex-direction: column;
+    justify-content: center;
+    align-items:center;
+    text-align:center;
+  }
   

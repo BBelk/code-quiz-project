@@ -4,11 +4,15 @@ var endSection = document.querySelector("#end");
 var highscoreSection = document.querySelector("#highscoreSection");
 var finalScore = document.querySelector("#finalScore");
 var submitButton = endSection.querySelector("#submitButton");
+var startAgainButton = highscoreSection.querySelector("#startAgain");
+var resetButton = highscoreSection.querySelector("#reset");
 var nav = document.querySelector("#nav");
 var questionH3 = quizSection.querySelector("#questions").appendChild(document.createElement("h3"));
 var timer = nav.appendChild(document.createElement("h3"));
 var viewHighScore = nav.appendChild(document.createElement("h3"));
 var wrongDisplay = quizSection.appendChild(document.createElement("p"));
+var highScoreOl = document.querySelector("#highscoreOrderedList");
+
 
 wrongDisplay.innerHTML = "WRONG!";
 wrongDisplay.setAttribute("style", "padding-top: 20px;display:none;margin:auto;width:auto");
@@ -149,17 +153,19 @@ viewHighScore.setAttribute("style", "float:left; order:-1; color:blue; text-deco
 
 viewHighScore.onclick = () => {
     if(state !== "highscore"){
-        SetState("highscore");
+        // SetState("highscore");
+        OpenHighScoreScreen();
         timer.innerHTML = "";
         clearInterval(timerInterval);
         viewHighScore.innerHTML = "Back To Start";
         return;
     }
     if(state == "highscore"){
-        SetState("start");
-        viewHighScore.innerHTML = "View HighScores";
+        StartAgain();
     }
   }
+
+  
 
   function EndQuiz(outOfTime){
     if(outOfTime){
@@ -187,15 +193,75 @@ viewHighScore.onclick = () => {
     var newInput = document.getElementById("inputText").value;
     if(newInput == ""){alert("You must enter your initials.");return;}
     WriteNewHighScore(score, newInput);
+    // SetState("highscore");
+    OpenHighScoreScreen();
   });
 
+    
+
   function WriteNewHighScore(score, initials){
+    var allHighScores = JSON.parse(localStorage.getItem("allScores")) || [];
     console.log("SCORE IS: " + score + "  INITALS ARE: " + initials);
+    var newEntry = {
+        inScore: score,
+        inInitials: initials
+    };
+    allHighScores.push(newEntry);
+    localStorage.setItem("allScores", JSON.stringify(allHighScores));
+
+  }
+
+  function OpenHighScoreScreen(){
+    var allHighScores = JSON.parse(localStorage.getItem("allScores")) || [];
+    viewHighScore.innerHTML = "Back To Start";
+    SetState("highscore");
+    ReadHighScores();
   }
 
   function ReadHighScores(){
-
+    var allHighScores = JSON.parse(localStorage.getItem("allScores"));
+    // console.log("Reading highscores" + allHighScores[0].inInitials);
+    if(allHighScores == []){console.log("NO HIGH SCORES");return;}
+    if(allHighScores.length > 1){allHighScores.sort((a, b) => (a.inScore < b.inScore) ? 1 : -1);}
+    for(var x = 0; x < allHighScores.length; x++){
+        // highScoreOl.appendChild(document.createElement<"li>");
+        // highscoreEntryArray.push(.document.createElement<"li">.appendChild)
+        highscoreEntryArray.push(highScoreOl.appendChild(document.createElement("il")));
+        console.log("GENERATEED ENTRY");
+        highscoreEntryArray[x].innerHTML = "SCORE: " + allHighScores[x].inScore + " INITIALS: " + allHighScores[x].inInitials;
+        highscoreEntryArray[x].setAttribute("style", "background-color: black; color:white"); 
+        //im tired, sorry
+        if(x % 2 == 0){
+            highscoreEntryArray[x].setAttribute("style", "background-color: white; color:black"); 
+        }
+    }
   }
+
+
+var highscoreEntryArray = [];
+  function ResetHighScores(erase){
+    for(newEl of highscoreEntryArray){
+        newEl.remove();
+    }
+    highscoreEntryArray = [];
+    allHighScores = [];
+    localStorage.setItem("allScores", JSON.stringify(allHighScores));
+    ReadHighScores();
+  }
+
+  function StartAgain(){
+    SetState("start");
+        viewHighScore.innerHTML = "View HighScores";
+  }
+  
+  startAgainButton.addEventListener('click', function(){
+    StartAgain();
+  });
+
+  resetButton.addEventListener('click', function(){
+    ResetHighScores();
+  });
+
 
 
 
