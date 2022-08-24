@@ -2,13 +2,13 @@ var startSection = document.querySelector("#start");
 var quizSection = document.querySelector("#quiz");
 var endSection = document.querySelector("#end");
 var highscoreSection = document.querySelector("#highscoreSection");
+var finalScore = document.querySelector("#finalScore");
+var submitButton = endSection.querySelector("#submitButton");
 var nav = document.querySelector("#nav");
 var questionH3 = quizSection.querySelector("#questions").appendChild(document.createElement("h3"));
 var timer = nav.appendChild(document.createElement("h3"));
 var viewHighScore = nav.appendChild(document.createElement("h3"));
 var wrongDisplay = quizSection.appendChild(document.createElement("p"));
-var finalScore = document.querySelector("#finalScore");
-console.log(finalScore);
 
 wrongDisplay.innerHTML = "WRONG!";
 wrongDisplay.setAttribute("style", "padding-top: 20px;display:none;margin:auto;width:auto");
@@ -55,6 +55,7 @@ startButton.addEventListener('click', function(){
     SetState("quiz");
     setTime();
     cursor = 0;
+    wrongPoints = 0;
     NextQuestion();
 });
 
@@ -73,8 +74,12 @@ function RightAnswer(){
     NextQuestion();
 }
 
+var wrongPoints = 0;
 function WrongAnswer(){
     console.log("YOURE WRONG");
+    wrongPoints += 1;
+    secondsLeft -= 5;
+    NextQuestion();
 }
 
 var state = "";
@@ -166,13 +171,33 @@ viewHighScore.onclick = () => {
         clearInterval(timerInterval);
         timer.textContent = "Final time: " + timer.textContent; 
     }
+    AssignScore();
   }
 
   var score = 0;
   function AssignScore(){
-    score = timeLeft;
+    score = (secondsLeft - (wrongPoints * 5));
+    if(wrongPoints >= questionsAndAnswers.length || score < 0){
+        score = 0;
+    }
     finalScore.innerHTML = "FINAL SCORE: " + score;
   }
+
+  submitButton.addEventListener('click', function(){
+    var newInput = document.getElementById("inputText").value;
+    if(newInput == ""){alert("You must enter your initials.");return;}
+    WriteNewHighScore(score, newInput);
+  });
+
+  function WriteNewHighScore(score, initials){
+    console.log("SCORE IS: " + score + "  INITALS ARE: " + initials);
+  }
+
+  function ReadHighScores(){
+
+  }
+
+
 
 
 SetState("start");
